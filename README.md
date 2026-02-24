@@ -60,9 +60,9 @@ Each application is mapped to exactly one category. Some apps may appear in broa
 | TopSites-Sports | 43 | 6 |
 | Unknown | 255 | 1 |
 
-## How App IDs Work
+## A Note on App IDs
 
-UniFi uses compound IDs that encode the category: `compound_id = (category_id << 16) + app_id`. For example, app ID `65538` belongs to category `1` (65538 >> 16 = 1) with app index `2` (65538 & 0xFFFF = 2). Category 0 apps have simple low-numbered IDs since `0 << 16 = 0`.
+UniFi uses compound IDs that encode the category: `compound_id = (category_id << 16) + app_id`. This site maps apps to categories using the explicit `category_id` declared in the web app code, not the encoded ID. In practice they almost always agree — we found one exception out of 2109 apps.
 
 ## Contributing
 
