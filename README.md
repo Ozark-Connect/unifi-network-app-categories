@@ -18,7 +18,7 @@ When you create Traffic Rules in UniFi Network to block, allow, or rate-limit tr
 
 ## One App, One Category
 
-Each application is mapped to exactly one category. Some apps may appear in broader categories than expected — for example, several well-known adult sites are under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult". Review the specific apps in each category before creating traffic rules.
+Each application is mapped to exactly one category. Some apps may appear in broader categories than expected - for example, several well-known adult sites are under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult". Review the specific apps in each category before creating traffic rules.
 
 ## Categories
 
