@@ -12,7 +12,7 @@ Data is extracted from UniFi Network firmware.
 
 ## Current Data
 
-- **UniFi Network**: 10.1.85.0
+- **UniFi Network**: 10.1.85
 - **DPI Signatures**: v2.128
 - **Categories**: 35
 - **Applications**: 2109
