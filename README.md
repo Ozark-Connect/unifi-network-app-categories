@@ -18,7 +18,7 @@ When you create Traffic Rules in UniFi Network to block, allow, or rate-limit tr
 
 ## One App, One Category
 
-Each application is mapped to exactly one category. Some apps may appear in broader categories than expected - for example, several well-known adult sites are under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult". Review the specific apps in each category before creating traffic rules.
+Each application is mapped to exactly one category. Some apps may appear in broader categories than you'd expect - for example, several well-known adult sites are under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult". Review the specific apps in each category before creating traffic rules.
 
 ## Categories
 
@@ -62,7 +62,7 @@ Each application is mapped to exactly one category. Some apps may appear in broa
 
 ## A Note on App IDs
 
-UniFi uses compound IDs that encode the category: `compound_id = (category_id << 16) + app_id`. This site maps apps to categories using the explicit `category_id` declared in the web app code, not the encoded ID. In practice they almost always agree — we found one exception out of 2109 apps.
+UniFi uses compound IDs that encode the category: `compound_id = (category_id << 16) + app_id`. This site maps apps to categories using the explicit `category_id` declared in the web app code, not the encoded ID. In practice they almost always agree - we found one exception out of 2109 apps.
 
 ## Contributing
 
