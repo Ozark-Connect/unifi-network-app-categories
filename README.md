@@ -12,7 +12,8 @@ Data is extracted from UniFi Network firmware.
 
 ## Current Data
 
-- **Version**: 2.128
+- **UniFi Network**: 10.1.85.0
+- **DPI Signatures**: v2.128
 - **Categories**: 35
 - **Applications**: 2109
 - **Last Updated**: 2026-02-24
