@@ -6,9 +6,7 @@ Searchable reference of every application and category recognized by UniFi Netwo
 
 ## What is this?
 
-When you create Traffic Rules in UniFi Network to block, allow, or rate-limit traffic by category (like "Online Games" or "Social Networking"), these are the specific applications included in each category.
-
-Data is extracted from UniFi Network firmware.
+When you create Traffic Rules in UniFi Network to block, allow, or rate-limit traffic by category (like "Online Games" or "Social Networking"), these are the specific apps included. Data is extracted from the UniFi Network web app code and updates with new releases.
 
 ## Current Data
 
@@ -17,6 +15,10 @@ Data is extracted from UniFi Network firmware.
 - **Categories**: 35
 - **Applications**: 2109
 - **Last Updated**: 2026-02-24
+
+## One App, One Category
+
+Each application is mapped to exactly one category. Some apps may appear in broader categories than expected — for example, several well-known adult sites are under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult". Review the specific apps in each category before creating traffic rules.
 
 ## Categories
 
@@ -60,15 +62,7 @@ Data is extracted from UniFi Network firmware.
 
 ## How App IDs Work
 
-UniFi uses compound IDs that encode the category: `compound_id = (category_id << 16) + app_id`.
-
-For example, an app with ID `65538` belongs to category `1` (65538 >> 16 = 1) with app index `2` (65538 & 0xFFFF = 2). Category 0 apps have simple low-numbered IDs since `0 << 16 = 0`.
-
-## One App, One Category
-
-Each application is mapped to exactly one category in the UniFi Network web app code. This means some apps may appear in broader categories than you'd expect. For example, several well-known adult sites are categorized under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult".
-
-These are the mappings as they exist in the UniFi Network web app code — review the specific apps in each category before creating traffic rules.
+UniFi uses compound IDs that encode the category: `compound_id = (category_id << 16) + app_id`. For example, app ID `65538` belongs to category `1` (65538 >> 16 = 1) with app index `2` (65538 & 0xFFFF = 2). Category 0 apps have simple low-numbered IDs since `0 << 16 = 0`.
 
 ## Contributing
 
