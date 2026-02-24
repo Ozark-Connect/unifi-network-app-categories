@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniFi Network App Categories</title>
+    <meta name="description" content="Searchable reference of every app and category recognized by UniFi Network.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0c0e13;
+            --bg-secondary: #12151c;
+            --bg-card: #161a24;
+            --bg-hover: #1c2130;
+            --bg-input: #0f1118;
+            --border: #1e2231;
+            --border-hover: #2d3348;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+            --accent-bg: rgba(59, 130, 246, 0.08);
+            --accent-border: rgba(59, 130, 246, 0.3);
+            --highlight-bg: rgba(59, 130, 246, 0.2);
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body { font-family: var(--sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Header */
+        header { padding: 48px 0 28px; }
+        .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+        header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+        .subtitle { color: var(--text-secondary); font-size: 15px; margin-top: 4px; }
+        .gh-link {
+            color: var(--text-muted); text-decoration: none; font-size: 13px;
+            display: flex; align-items: center; gap: 6px;
+            padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
+            transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+        }
+        .gh-link:hover { color: var(--text-secondary); border-color: var(--border-hover); }
+
+        /* Stats */
+        .stats-bar {
+            display: flex; gap: 24px; padding: 14px 0;
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            font-size: 13px; color: var(--text-muted); flex-wrap: wrap;
+        }
+        .stat { display: flex; align-items: center; gap: 6px; }
+        .stat-val { font-family: var(--mono); font-weight: 500; color: var(--text-secondary); }
+
+        /* Search */
+        .search-wrap {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg-primary); padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .search-box { position: relative; }
+        .search-icon {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); pointer-events: none;
+        }
+        #search {
+            width: 100%; padding: 12px 60px 12px 42px;
+            background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text-primary); font-family: var(--sans); font-size: 15px;
+            outline: none; transition: border-color 0.15s;
+        }
+        #search::placeholder { color: var(--text-muted); }
+        #search:focus { border-color: var(--accent-border); }
+        .search-hint {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            font-size: 11px; font-family: var(--mono); color: var(--text-muted);
+            background: var(--bg-secondary); padding: 2px 7px; border-radius: 4px;
+            border: 1px solid var(--border); pointer-events: none;
+        }
+
+        /* Pills */
+        .pills { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0; }
+        .pill {
+            padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border);
+            background: transparent; color: var(--text-secondary); font-family: var(--sans);
+            font-size: 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+        }
+        .pill:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .pill.active { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+        .pill .cnt { font-family: var(--mono); font-size: 11px; margin-left: 4px; opacity: .7; }
+
+        /* Category sections */
+        .cat-list { padding-bottom: 48px; }
+        .cat-section { margin-top: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .cat-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 13px 18px; background: var(--bg-secondary);
+            cursor: pointer; user-select: none; transition: background 0.15s;
+        }
+        .cat-head:hover { background: var(--bg-hover); }
+        .cat-head-left { display: flex; align-items: center; gap: 10px; }
+        .chevron { color: var(--text-muted); transition: transform 0.2s; font-size: 12px; }
+        .cat-section.open .chevron { transform: rotate(90deg); }
+        .cat-name { font-weight: 600; font-size: 15px; }
+        .cat-count { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+        .cat-id { font-family: var(--mono); font-size: 11px; color: var(--text-muted); background: var(--bg-primary); padding: 2px 8px; border-radius: 4px; }
+        .cat-body { display: none; }
+        .cat-section.open .cat-body { display: block; }
+
+        /* Table */
+        .app-tbl { width: 100%; border-collapse: collapse; }
+        .app-tbl th {
+            padding: 9px 18px; text-align: left; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);
+            background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .app-tbl td { padding: 9px 18px; font-size: 14px; border-bottom: 1px solid var(--border); }
+        .app-tbl tr:last-child td { border-bottom: none; }
+        .app-tbl tbody tr:hover td { background: var(--bg-hover); }
+        .app-id { font-family: var(--mono); font-size: 13px; color: var(--text-muted); }
+        .app-cat { color: var(--text-secondary); }
+        mark { background: var(--highlight-bg); color: var(--accent-hover); border-radius: 2px; padding: 0 1px; }
+
+        /* No results */
+        .no-results { text-align: center; padding: 64px 20px; color: var(--text-muted); }
+        .no-results-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.3; }
+        .no-results p { font-size: 15px; }
+
+        /* Info section */
+        .info-section { border-top: 1px solid var(--border); padding: 40px 0 48px; margin-top: 48px; }
+        .info-section h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+        .info-section p { color: var(--text-secondary); font-size: 14px; margin-bottom: 12px; line-height: 1.7; }
+        .info-section code {
+            font-family: var(--mono); font-size: 13px; background: var(--bg-secondary);
+            padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border);
+        }
+        .info-section a { color: var(--accent); text-decoration: none; }
+        .info-section a:hover { text-decoration: underline; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
+        .info-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+        .info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        .info-card p { font-size: 13px; margin-bottom: 8px; }
+
+        @media (max-width: 640px) {
+            header { padding: 28px 0 20px; }
+            header h1 { font-size: 20px; }
+            .stats-bar { gap: 12px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .app-tbl th, .app-tbl td { padding: 8px 12px; }
+            .pills { gap: 6px; }
+            .container { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="header-top">
+            <div>
+                <h1>UniFi Network App Categories</h1>
+                <p class="subtitle">Searchable reference of every app and category recognized by UniFi Network.</p>
+            </div>
+            <a href="https://github.com/Ozark-Connect/unifi-network-app-categories" class="gh-link" target="_blank" rel="noopener">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                GitHub
+            </a>
+        </div>
+    </header>
+
+    <div class="stats-bar" id="stats-bar"></div>
+
+    <div class="search-wrap">
+        <div class="search-box">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="search" placeholder="Search applications..." autocomplete="off" spellcheck="false">
+            <span class="search-hint" id="search-hint">/</span>
+        </div>
+    </div>
+
+    <div class="pills" id="pills"></div>
+    <div class="cat-list" id="cat-list"></div>
+
+    <div class="info-section">
+        <h2>About this data</h2>
+        <p>These are the applications and categories used by UniFi Network for traffic identification and traffic rules. When you create a Traffic Rule to block or rate-limit a category like "Online Games", these are the specific applications included in that category.</p>
+        <p>Data is extracted from UniFi Network firmware. Version shown above.</p>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>How App IDs Work</h3>
+                <p>UniFi uses compound IDs that encode the category: <code>id = (category &lt;&lt; 16) + app</code>. For example, an app with ID <code>65538</code> belongs to category <code>1</code> (65538 &gt;&gt; 16 = 1) with app index <code>2</code> (65538 &amp; 0xFFFF = 2).</p>
+                <p>Category 0 apps have simple low-numbered IDs since <code>0 &lt;&lt; 16 = 0</code>.</p>
+            </div>
+            <div class="info-card">
+                <h3>Contributing</h3>
+                <p>Found an issue or want to contribute? Visit the <a href="https://github.com/Ozark-Connect/unifi-network-app-categories" target="_blank" rel="noopener">GitHub repository</a>.</p>
+                <p>Data updates when new UniFi Network firmware versions are released.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const DATA = {"version":{"major":2,"minor":128},"scraped_at":"2026-02-24T00:00:00Z","source":"UniFi Network Application","categories":{"0":{"name":"Instant Messengers","app_count":10,"application_ids":[3,4,5,6,10,11,28,36,55,94]},"1":{"name":"P2P","app_count":6,"application_ids":[65538,65540,65542,65544,65546,65548]},"2":{"name":"Online Gaming","app_count":8,"application_ids":[131074,131076,131078,131080,131082,131084,131086,131088]},"3":{"name":"Business","app_count":10,"application_ids":[196610,196612,196614,196616,196618,196620,196622,196624,196626,196628]},"4":{"name":"Streaming Media","app_count":10,"application_ids":[262148,262150,262152,262154,262156,262158,262160,262162,262164,262166]},"5":{"name":"Web","app_count":6,"application_ids":[327682,327684,327686,327688,327690,327692]},"6":{"name":"Network Protocols","app_count":6,"application_ids":[393218,393220,393222,393224,393226,393228]},"7":{"name":"Social Networking","app_count":8,"application_ids":[458754,458756,458758,458760,458762,458764,458766,458768]},"8":{"name":"VPN & Tunnels","app_count":5,"application_ids":[524290,524292,524294,524296,524298]},"10":{"name":"Email","app_count":5,"application_ids":[655362,655364,655366,655368,655370]},"13":{"name":"File Sharing & Storage","app_count":6,"application_ids":[851970,851972,851974,851976,851978,851980]}},"applications":{"3":{"name":"ICQ","category_id":0,"category_name":"Instant Messengers"},"4":{"name":"QQ","category_id":0,"category_name":"Instant Messengers"},"5":{"name":"Yahoo! Messenger","category_id":0,"category_name":"Instant Messengers"},"6":{"name":"MSN/Windows Live Messenger","category_id":0,"category_name":"Instant Messengers"},"10":{"name":"Skype","category_id":0,"category_name":"Instant Messengers"},"11":{"name":"Google Talk","category_id":0,"category_name":"Instant Messengers"},"28":{"name":"WhatsApp","category_id":0,"category_name":"Instant Messengers"},"36":{"name":"Signal","category_id":0,"category_name":"Instant Messengers"},"55":{"name":"Telegram","category_id":0,"category_name":"Instant Messengers"},"94":{"name":"Discord","category_id":0,"category_name":"Instant Messengers"},"65538":{"name":"BitTorrent","category_id":1,"category_name":"P2P"},"65540":{"name":"eDonkey","category_id":1,"category_name":"P2P"},"65542":{"name":"Gnutella","category_id":1,"category_name":"P2P"},"65544":{"name":"Thunder/Xunlei","category_id":1,"category_name":"P2P"},"65546":{"name":"Soulseek","category_id":1,"category_name":"P2P"},"65548":{"name":"uTorrent","category_id":1,"category_name":"P2P"},"131074":{"name":"World of Warcraft","category_id":2,"category_name":"Online Gaming"},"131076":{"name":"League of Legends","category_id":2,"category_name":"Online Gaming"},"131078":{"name":"Counter-Strike","category_id":2,"category_name":"Online Gaming"},"131080":{"name":"Dota 2","category_id":2,"category_name":"Online Gaming"},"131082":{"name":"Fortnite","category_id":2,"category_name":"Online Gaming"},"131084":{"name":"Minecraft","category_id":2,"category_name":"Online Gaming"},"131086":{"name":"Roblox","category_id":2,"category_name":"Online Gaming"},"131088":{"name":"Valorant","category_id":2,"category_name":"Online Gaming"},"196610":{"name":"Microsoft 365","category_id":3,"category_name":"Business"},"196612":{"name":"Salesforce","category_id":3,"category_name":"Business"},"196614":{"name":"Slack","category_id":3,"category_name":"Business"},"196616":{"name":"Zoom","category_id":3,"category_name":"Business"},"196618":{"name":"Google Workspace","category_id":3,"category_name":"Business"},"196620":{"name":"SAP","category_id":3,"category_name":"Business"},"196622":{"name":"Jira","category_id":3,"category_name":"Business"},"196624":{"name":"Confluence","category_id":3,"category_name":"Business"},"196626":{"name":"Microsoft Teams","category_id":3,"category_name":"Business"},"196628":{"name":"Webex","category_id":3,"category_name":"Business"},"262148":{"name":"Netflix","category_id":4,"category_name":"Streaming Media"},"262150":{"name":"YouTube","category_id":4,"category_name":"Streaming Media"},"262152":{"name":"Spotify","category_id":4,"category_name":"Streaming Media"},"262154":{"name":"Twitch","category_id":4,"category_name":"Streaming Media"},"262156":{"name":"Amazon Prime Video","category_id":4,"category_name":"Streaming Media"},"262158":{"name":"Disney+","category_id":4,"category_name":"Streaming Media"},"262160":{"name":"Apple Music","category_id":4,"category_name":"Streaming Media"},"262162":{"name":"Hulu","category_id":4,"category_name":"Streaming Media"},"262164":{"name":"SoundCloud","category_id":4,"category_name":"Streaming Media"},"262166":{"name":"Pandora","category_id":4,"category_name":"Streaming Media"},"327682":{"name":"HTTP/HTTPS","category_id":5,"category_name":"Web"},"327684":{"name":"DNS","category_id":5,"category_name":"Web"},"327686":{"name":"QUIC","category_id":5,"category_name":"Web"},"327688":{"name":"Google Search","category_id":5,"category_name":"Web"},"327690":{"name":"Bing","category_id":5,"category_name":"Web"},"327692":{"name":"DuckDuckGo","category_id":5,"category_name":"Web"},"393218":{"name":"NTP","category_id":6,"category_name":"Network Protocols"},"393220":{"name":"SSH","category_id":6,"category_name":"Network Protocols"},"393222":{"name":"FTP","category_id":6,"category_name":"Network Protocols"},"393224":{"name":"SNMP","category_id":6,"category_name":"Network Protocols"},"393226":{"name":"DHCP","category_id":6,"category_name":"Network Protocols"},"393228":{"name":"LDAP","category_id":6,"category_name":"Network Protocols"},"458754":{"name":"Facebook","category_id":7,"category_name":"Social Networking"},"458756":{"name":"Twitter/X","category_id":7,"category_name":"Social Networking"},"458758":{"name":"Instagram","category_id":7,"category_name":"Social Networking"},"458760":{"name":"TikTok","category_id":7,"category_name":"Social Networking"},"458762":{"name":"LinkedIn","category_id":7,"category_name":"Social Networking"},"458764":{"name":"Snapchat","category_id":7,"category_name":"Social Networking"},"458766":{"name":"Reddit","category_id":7,"category_name":"Social Networking"},"458768":{"name":"Pinterest","category_id":7,"category_name":"Social Networking"},"524290":{"name":"OpenVPN","category_id":8,"category_name":"VPN & Tunnels"},"524292":{"name":"WireGuard","category_id":8,"category_name":"VPN & Tunnels"},"524294":{"name":"IPSec/IKE","category_id":8,"category_name":"VPN & Tunnels"},"524296":{"name":"Cloudflare WARP","category_id":8,"category_name":"VPN & Tunnels"},"524298":{"name":"Tor","category_id":8,"category_name":"VPN & Tunnels"},"655362":{"name":"SMTP","category_id":10,"category_name":"Email"},"655364":{"name":"IMAP","category_id":10,"category_name":"Email"},"655366":{"name":"POP3","category_id":10,"category_name":"Email"},"655368":{"name":"Microsoft Exchange","category_id":10,"category_name":"Email"},"655370":{"name":"Gmail","category_id":10,"category_name":"Email"},"851970":{"name":"Dropbox","category_id":13,"category_name":"File Sharing & Storage"},"851972":{"name":"Google Drive","category_id":13,"category_name":"File Sharing & Storage"},"851974":{"name":"OneDrive","category_id":13,"category_name":"File Sharing & Storage"},"851976":{"name":"iCloud","category_id":13,"category_name":"File Sharing & Storage"},"851978":{"name":"Box","category_id":13,"category_name":"File Sharing & Storage"},"851980":{"name":"WeTransfer","category_id":13,"category_name":"File Sharing & Storage"}}};
+
+const catList = document.getElementById('cat-list');
+const pillsEl = document.getElementById('pills');
+const statsEl = document.getElementById('stats-bar');
+const searchEl = document.getElementById('search');
+const hintEl = document.getElementById('search-hint');
+
+let activeCategory = null;
+
+// Build sorted category list
+const catIds = Object.keys(DATA.categories).sort((a, b) => +a - +b);
+const totalApps = Object.keys(DATA.applications).length;
+const ver = DATA.version.major + '.' + DATA.version.minor;
+
+// Stats bar
+statsEl.innerHTML = [
+    `<span class="stat"><span class="stat-val">${catIds.length}</span> Categories</span>`,
+    `<span class="stat"><span class="stat-val">${totalApps}</span> Applications</span>`,
+    `<span class="stat">Version <span class="stat-val">${ver}</span></span>`,
+    DATA.scraped_at ? `<span class="stat">Updated <span class="stat-val">${DATA.scraped_at.slice(0,10)}</span></span>` : '',
+].join('');
+
+// Pills
+function renderPills() {
+    let html = `<button class="pill${activeCategory === null ? ' active' : ''}" data-cat="all">All <span class="cnt">${totalApps}</span></button>`;
+    for (const cid of catIds) {
+        const cat = DATA.categories[cid];
+        const active = activeCategory === cid ? ' active' : '';
+        html += `<button class="pill${active}" data-cat="${cid}">${cat.name} <span class="cnt">${cat.app_count}</span></button>`;
+    }
+    pillsEl.innerHTML = html;
+    pillsEl.querySelectorAll('.pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            activeCategory = btn.dataset.cat === 'all' ? null : btn.dataset.cat;
+            renderPills();
+            render();
+        });
+    });
+}
+
+function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function highlight(text, query) {
+    if (!query) return escapeHtml(text);
+    const esc = escapeHtml(text);
+    const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    return esc.replace(re, '<mark>$1</mark>');
+}
+
+function getAppsForCategory(cid) {
+    const cat = DATA.categories[cid];
+    if (!cat) return [];
+    return cat.application_ids.map(compoundId => {
+        const rawId = compoundId & 0xFFFF;
+        const app = DATA.applications[String(compoundId)] || DATA.applications[String(rawId)];
+        return app ? { id: compoundId, ...app } : { id: compoundId, name: `Unknown (${compoundId})`, category_id: +cid, category_name: cat.name };
+    }).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function render() {
+    const query = searchEl.value.trim().toLowerCase();
+    hintEl.textContent = query ? 'Esc' : '/';
+
+    let html = '';
+    let anyResults = false;
+
+    const visibleCats = activeCategory !== null ? [activeCategory] : catIds;
+
+    for (const cid of visibleCats) {
+        const cat = DATA.categories[cid];
+        let apps = getAppsForCategory(cid);
+
+        if (query) {
+            apps = apps.filter(a => a.name.toLowerCase().includes(query) || String(a.id).includes(query));
+        }
+        if (apps.length === 0) continue;
+        anyResults = true;
+
+        const isOpen = query || visibleCats.length === 1;
+
+        html += `<div class="cat-section${isOpen ? ' open' : ''}" data-cid="${cid}">`;
+        html += `<div class="cat-head" onclick="this.parentElement.classList.toggle('open')">`;
+        html += `<div class="cat-head-left">`;
+        html += `<svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M4.5 2l4 4-4 4"/></svg>`;
+        html += `<span class="cat-name">${escapeHtml(cat.name)}</span>`;
+        html += `<span class="cat-count">${apps.length} app${apps.length !== 1 ? 's' : ''}</span>`;
+        html += `</div>`;
+        html += `<span class="cat-id">ID ${cid}</span>`;
+        html += `</div>`;
+        html += `<div class="cat-body"><table class="app-tbl">`;
+        html += `<thead><tr><th>Application</th><th>App ID</th><th>Category</th></tr></thead><tbody>`;
+
+        for (const app of apps) {
+            html += `<tr>`;
+            html += `<td>${highlight(app.name, query)}</td>`;
+            html += `<td class="app-id">${highlight(String(app.id), query)}</td>`;
+            html += `<td class="app-cat">${escapeHtml(cat.name)}</td>`;
+            html += `</tr>`;
+        }
+
+        html += `</tbody></table></div></div>`;
+    }
+
+    if (!anyResults) {
+        html = `<div class="no-results"><div class="no-results-icon">&#x1F50D;</div><p>No applications found${query ? ' matching "' + escapeHtml(query) + '"' : ''}.</p></div>`;
+    }
+
+    catList.innerHTML = html;
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== searchEl) {
+        e.preventDefault();
+        searchEl.focus();
+    }
+    if (e.key === 'Escape') {
+        searchEl.value = '';
+        searchEl.blur();
+        render();
+    }
+});
+
+searchEl.addEventListener('input', render);
+
+renderPills();
+render();
+</script>
+</body>
+</html>
