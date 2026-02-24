@@ -66,7 +66,7 @@ For example, an app with ID `65538` belongs to category `1` (65538 >> 16 = 1) wi
 
 ## One App, One Category
 
-Each application is mapped to exactly one category in the firmware. This means some apps may appear in broader categories than you'd expect. For example, several well-known adult sites are categorized under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult".
+Each application is mapped to exactly one category in the UniFi Network web app code. This means some apps may appear in broader categories than you'd expect. For example, several well-known adult sites are categorized under "Media streaming services" rather than "Adult", and AI chatbots like ChatGPT appear under "TopSites-Adult".
 
 These are the mappings as they exist in the UniFi Network web app code — review the specific apps in each category before creating traffic rules.
 
