@@ -14,7 +14,7 @@ When you create Traffic Rules in UniFi Network to block, allow, or rate-limit tr
 - **DPI Signatures**: v2.128
 - **Categories**: 35
 - **Applications**: 2109
-- **Last Updated**: 2026-02-28
+- **Last Updated**: 2026-03-04
 
 ## One App, One Category
 
