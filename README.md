@@ -10,11 +10,11 @@ When you create Traffic Rules in UniFi Network to block, allow, or rate-limit tr
 
 ## Current Data
 
-- **UniFi Network**: 10.2.89
+- **UniFi Network**: 10.2.93
 - **DPI Signatures**: v2.128
 - **Categories**: 35
 - **Applications**: 2109
-- **Last Updated**: 2026-03-12
+- **Last Updated**: 2026-03-13
 
 ## One App, One Category
 
